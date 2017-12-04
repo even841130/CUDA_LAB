@@ -10,7 +10,7 @@ double cpuSecond()
 	gettimeofday(&tp , NULL);
 	return ((double)tp.tv_sec +(double)tp.tv_usec*1.e-6);
 }
-#define CHECK(call)
+void CHECK(call)
 {
 	const cudaError_t error = call;
 	if(error != cudaSuccess)
@@ -47,7 +47,7 @@ void initialData(float *ip, int size)
 		ip[i] = (float)(rand()&0xFF)/10.0f;
 	}
 }
-void sumArrayOnHost(float *A, float *B, float *C, const int N)
+void sumArrayOnHost(float *A, float *B, float *C, int N)
 {
 	for(int idx=0 ; idx < N; idx++)
 		C[idx] = A[idx] + B[idx];
