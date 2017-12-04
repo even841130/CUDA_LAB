@@ -10,16 +10,7 @@ double cpuSecond()
 	gettimeofday(&tp , NULL);
 	return ((double)tp.tv_sec +(double)tp.tv_usec*1.e-6);
 }
-void CHECK(call)
-{
-	const cudaError_t error = call;
-	if(error != cudaSuccess)
-	{
-		printf("Error: %s:%d, ",__FILE__,__LINE__);
-		printf("code:%d, reason: %s\n",error, cudaGetErrorString(error));
-		exit(1);
-	}
-}
+
 void checkResult(float *hostRef, float *gpuRef, const int  N)
 {
 	double epsilon = 1.0E-8;
@@ -66,9 +57,9 @@ int main(int argc, char **argv){
 	//set up device
 	int dev = 0;
 	cudaDeviceProp deviceProp;
-	CHECK(cudaGetDeviceProperties(&deviceProp, dev));
+	//CHECK(cudaGetDeviceProperties(&deviceProp, dev));
 	printf("Using Device %d: %s\n",dev, deviceProp.name);
-	CHECK(cudaSetDevice(dev));
+	//CHECK(cudaSetDevice(dev));
 
 	//set up date size of vectors
 	int nElem = 1<<24;
