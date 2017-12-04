@@ -106,7 +106,7 @@ int main(int argc, char **argv){
 	dim3 grid ((nElem+block.x-1)/block.x);
 
 	iStart = cpuSecond();
-	sumArraysOnGPU <<<grid, block>>>(d_A, d_B, d_C, nElem);
+	sumArraysOnGPU<<<grid, block>>>(d_A, d_B, d_C, nElem);
 	cudaDeviceSynchronize();
 	iElaps = cpuSecond() - iStart;
 	printf("sumArraysOnGPU <<<%d,%d>>> Time elapsed %f sec\n", grid.x, block.x, iElaps);
