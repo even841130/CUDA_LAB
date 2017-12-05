@@ -11,7 +11,7 @@ double cpuSecond()
 	return ((double)tp.tv_sec +(double)tp.tv_usec*1.e-6);
 }
 
-void checkResult(float *hostRef, float *gpuRef, const int  N)
+void checkResult(float *hostRef, float *gpuRef,  int  N)
 {
 	double epsilon = 1.0E-8;
 	bool match = 1;
@@ -106,7 +106,7 @@ int main(int argc, char **argv){
 	dim3 grid ((nElem+block.x-1)/block.x);
 
 	iStart = cpuSecond();
-	sumArraysOnGPU<<<grid, block>>>(d_A, d_B, d_C, nElem);
+	sumArraysOnGPU<<<grid, block>>>(d_A, d_B, d_C);
 	cudaDeviceSynchronize();
 	iElaps = cpuSecond() - iStart;
 	printf("sumArraysOnGPU <<<%d,%d>>> Time elapsed %f sec\n", grid.x, block.x, iElaps);
