@@ -44,9 +44,9 @@ void sumArrayOnHost(float *A, float *B, float *C, int N)
 		C[idx] = A[idx] + B[idx];
 }
 
-__global__ void sumArraysOnGPU(float *A, float *B, float *C)
+__global__ void sumArraysOnGPU(float *A, float *B, float *C, const int N)
 {
-	int i = threadIdx.x;
+	int i = blockIdx.x * blockDim.x + threadIdx.x;
 	C[i] = A[i]+ B[i];
 }
 
@@ -106,7 +106,7 @@ int main(int argc, char **argv){
 	dim3 grid ((nElem+block.x-1)/block.x);
 
 	iStart = cpuSecond();
-	sumArraysOnGPU<<<grid, block>>>(d_A, d_B, d_C);
+	sumArraysOnGPU<<<grid, block>>>(d_A, d_B, d_C, nElem);
 	cudaDeviceSynchronize();
 	iElaps = cpuSecond() - iStart;
 	printf("sumArraysOnGPU <<<%d,%d>>> Time elapsed %f sec\n", grid.x, block.x, iElaps);
